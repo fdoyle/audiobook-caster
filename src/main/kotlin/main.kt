@@ -1,5 +1,6 @@
 import io.ktor.application.*
 import io.ktor.html.*
+import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -39,13 +40,18 @@ fun main(args: Array<String>) {
 
 //                call.respondText(generateHomePage(hostname, rootPathFile))
             }
-//            listOf("a","b","c").forEach {
+            getAllAudiobookDirectories(rootPathFile).forEach {
+                val book = it.name
 //                val letter = it
 //                get("/$letter") {
 //                    call.respondText("this is page $letter")
 //                }
-//            }
+                val path = it.name.encodeURLPath()
+                get("/$path"){
+                    call.respondText("This would be the rss feed for $book")
+                }
 
+            }
 
 
             static("audiobooks") {
@@ -80,7 +86,7 @@ fun generateHomePage(root: File): String {
 fun listRootContents(s: StringBuilder, root: File) {
     getAllAudiobookDirectories(root)
         .forEach {
-            s.appendLine("- ${it.name}")
+            s.appendLine("- ${it.name} (${it.name.encodeURLPath()})")
             listFolderContents(s, it)
         }
 
