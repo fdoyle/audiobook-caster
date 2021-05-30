@@ -25,12 +25,14 @@ fun buildXmlString(init: Document.() -> Unit): String {
     return writer.toString()
 }
 
-fun Document.element(tag: String,
-                     attributes: Map<String, String> = mapOf(),
-                     init: Element.()-> Unit = {}) {
+
+fun Document.rootElement(
+    tag: String,
+    attributes: Map<String, String> = mapOf(),
+    init: Element.() -> Unit = {}
+) {
     val element = this.createElement(tag)
-    attributes.forEach {
-        key, value ->
+    attributes.forEach { key, value ->
         element.setAttribute(key, value)
     }
     element.init()
@@ -38,16 +40,33 @@ fun Document.element(tag: String,
     this.appendChild(element)
 }
 
-fun Element.element(tag: String,
-                    attributes: Map<String, String> = mapOf(),
-                    init: Element.()-> Unit = {}) {
+fun Document.rootElement(
+    tag: String,
+    attributes: Map<String, String> = mapOf(),
+    text: String
+) = rootElement(tag, attributes) {
+    text(text)
+}
+
+fun Element.element(
+    tag: String,
+    attributes: Map<String, String> = mapOf(),
+    init: Element.() -> Unit = {}
+) {
     val element = this.ownerDocument.createElement(tag)
-    attributes.forEach {
-            key, value ->
+    attributes.forEach { key, value ->
         element.setAttribute(key, value)
     }
     element.init()
     this.appendChild(element)
+}
+
+fun Element.element(
+    tag: String,
+    attributes: Map<String, String> = mapOf(),
+    text: String
+) = element(tag, attributes) {
+    text(text)
 }
 
 fun Element.text(text: String) {

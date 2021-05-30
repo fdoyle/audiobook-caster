@@ -24,7 +24,7 @@ class XmlBuilderKtTest {
                 <Foo/>
             """.trimIndent(),
             buildXmlString {
-                element("Foo")
+                rootElement("Foo")
             }.trim()
         )
     }
@@ -40,7 +40,7 @@ class XmlBuilderKtTest {
                 </Root>
             """.trimIndent(),
             buildXmlString {
-                element("Root") {
+                rootElement("Root") {
                     element("Foo")
                     element("Bar")
                 }
@@ -58,7 +58,7 @@ class XmlBuilderKtTest {
                 </Foo>
             """.trimIndent(),
             buildXmlString {
-                element("Foo") {
+                rootElement("Foo") {
                     element("Bar")
                 }
             }.trim()
@@ -73,8 +73,25 @@ class XmlBuilderKtTest {
                 <Foo>Bar</Foo>
             """.trimIndent(),
             buildXmlString {
-                element("Foo") {
+                rootElement("Foo") {
                     text("Bar")
+                }
+            }.trim()
+        )
+    }
+
+    @Test
+    fun `text content alt`() {
+        assertEquals(
+            """
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <Foo>
+                    <Bar>baz</Bar>
+                </Foo>
+            """.trimIndent(),
+            buildXmlString {
+                rootElement("Foo") {
+                    element("Bar", text = "Baz")
                 }
             }.trim()
         )
@@ -88,7 +105,7 @@ class XmlBuilderKtTest {
                 <Foo bar="baz"/>
             """.trimIndent(),
             buildXmlString {
-                element("Foo", attributes = mapOf("bar" to "baz"))
+                rootElement("Foo", attributes = mapOf("bar" to "baz"))
             }.trim()
         )
     }

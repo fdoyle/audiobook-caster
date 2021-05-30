@@ -2,16 +2,12 @@ import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.html.*
 import java.io.File
-import java.net.URI
-import java.nio.file.FileSystems
-import java.nio.file.Path
 
 
 fun main(args: Array<String>) {
@@ -21,7 +17,7 @@ fun main(args: Array<String>) {
     val rootPathFile = File(rootPath)
     if (!rootPathFile.exists())
         rootPathFile.mkdirs()
-    embeddedServer(Netty, port = 8000) {
+    embeddedServer(Netty, port = 80) {
         routing {
             get("/") {
                 call.respondHtml {
@@ -54,8 +50,11 @@ fun main(args: Array<String>) {
             getAllAudiobookDirectories(rootPathFile).forEach {
                 val book = it.name
                 val path = it.name.encodeURLPath()
+                val directory = it
                 get("/$path") {
-                    call.respondText("This would be the rss feed for $book")
+//                    call.respondText("This would be the rss feed for $book")
+//                    call.respond("This would be the rss feed for $book")
+                    call.respond(buildRssForDirectory(directory))
                 }
 
             }
@@ -104,4 +103,28 @@ fun listFolderContents(s: StringBuilder, dir: File) {
         .forEach {
             s.appendLine("|- ${it.name}")
         }
+}
+
+fun buildRssForDirectory(directory: File): String {
+    val title = directory.name
+
+    val episodes = getAllAudiobookFiles(directory)
+    return buildXmlString {
+        rootElement("rss", mapOf(
+            "xmlns:itunes" to "http://www.itunes.com/dtds/podcast-1.0.dtd"
+        )) {
+            element("channel") {
+//                element("atom:link", mapOf("href" to "http://google.com"))
+                element("title"){ text(title)}
+                element("itunes:summary")
+                episodes.forEach {
+                    val episode = it
+                    element("item") {
+                        element("title", text = it.name.removeSuffix(".mp3"))
+                        element("itunes:duration", text="fuck i donno")
+                    }
+                }
+            }
+        }
+    }
 }
