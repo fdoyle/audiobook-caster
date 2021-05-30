@@ -32,22 +32,29 @@ fun main(args: Array<String>) {
                         h1 {
                             +hostname
                         }
+                        ul {
+                            getAllAudiobookDirectories(rootPathFile).forEach {
+                                val encodedFileName = it.name.encodeURLPath()
+                                val href = "/$encodedFileName"
+
+                                li {
+                                    a(href = href) {
+                                        +it.name
+                                    }
+                                }
+                            }
+                        }
+
                         pre {
                             +generateHomePage(rootPathFile)
                         }
                     }
                 }
-
-//                call.respondText(generateHomePage(hostname, rootPathFile))
             }
             getAllAudiobookDirectories(rootPathFile).forEach {
                 val book = it.name
-//                val letter = it
-//                get("/$letter") {
-//                    call.respondText("this is page $letter")
-//                }
                 val path = it.name.encodeURLPath()
-                get("/$path"){
+                get("/$path") {
                     call.respondText("This would be the rss feed for $book")
                 }
 
