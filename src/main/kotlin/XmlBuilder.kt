@@ -8,6 +8,7 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
+//XML DSL, works like it should work.
 fun buildXmlString(init: Document.() -> Unit): String {
     val docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
     val doc: Document = docBuilder.newDocument()
@@ -25,7 +26,7 @@ fun buildXmlString(init: Document.() -> Unit): String {
     return writer.toString()
 }
 
-
+//this is special because there can only be one top-level element
 fun Document.rootElement(
     tag: String,
     attributes: Map<String, String> = mapOf(),
