@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     val rootPathFile = File(rootPath)
     if (!rootPathFile.exists())
         rootPathFile.mkdirs()
-    embeddedServer(Netty, port = 80) {
+    embeddedServer(Netty, port = 8080) {
         routing {
             get("/") {
                 call.respondHtml {
