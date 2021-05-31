@@ -1,15 +1,11 @@
-Goal:
+I have a big pile of mp3 audiobooks.
 
-Host folders arbitrary mp3's as podcasts for consumption in standard podcast apps.
+I want to be able to play them on my phone.
 
+This project hosts those audiobooks as podcasts, providing an rss feed for each. This way, instead of loading them up as music, which won't save your spot or keep track of what's already been played, it'll load them as podcasts, which do all of those things.
 
+On startup, the app creates a folder, ~/AudiobookCaster.
 
+The user then adds their audiobook (a folder containing mp3s) to that directory.
 
-to-do:
-1: create a folder (if it does not exist) to store files
-2: manually put files in that folder in the appropriate format
-3: host those files as static content in the web-server
-4: have the app detect folders within the created root directory
-5: detect mp3 files within each folder
-6: create an RSS feed for each folder
-7: list all created RSS feeds on a home page
+If that folder contains a jpg or png, the app will automatically use that in the rss feed for the "podcast" thumbnail.
