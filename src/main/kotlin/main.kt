@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     val rootPathFile = File(rootPath)
     if (!rootPathFile.exists())
         rootPathFile.mkdirs()
-    embeddedServer(Netty, port = 8080) {
+    embeddedServer(Netty, port = 80) {
         routing {
             get("/") {
                 call.respondHtml {
@@ -84,7 +84,8 @@ fun getAllAudiobookDirectories(root: File): List<File> {
 fun getAllAudiobookFiles(bookDirectory: File): List<File> {
     return (bookDirectory.listFiles() ?: emptyArray())
         .filter { !it.startsWith(".") }
-        .filter { it.name.endsWith(".mp3") }
+        .filter { it.name.endsWith(".mp3")
+                ||it.name.endsWith(".opus")}
         .sortedBy { it.name }
 }
 
