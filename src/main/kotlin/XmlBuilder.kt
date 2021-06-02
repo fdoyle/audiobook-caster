@@ -1,6 +1,5 @@
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.Node
 import java.io.StringWriter
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.OutputKeys
@@ -69,6 +68,11 @@ fun Element.element(
 ) = element(tag, attributes) {
     text(text)
 }
+
+fun Element.element(
+    tag: String,
+    text: String
+)= element(tag, mapOf(), text)
 
 fun Element.text(text: String) {
     this.appendChild(this.ownerDocument.createTextNode(text))

@@ -12,7 +12,6 @@ import java.io.File
 
 
 fun main(args: Array<String>) {
-    val hostname = args.firstOrNull() ?: "franks-MacBook-Air.local"
     val home = System.getProperty("user.home")
     val rootPath = "$home/AudiobookCaster"
     val rootPathFile = File(rootPath)
@@ -26,9 +25,6 @@ fun main(args: Array<String>) {
                         title("AudiobookCaster")
                     }
                     body {
-                        h1 {
-                            +hostname
-                        }
                         h3 {
                             +call.request.host()
                         }
@@ -150,22 +146,22 @@ fun buildRssForDirectory(host: String, directory: File): String {
                     )
                 )
                 element("title") { text(title) }
-                element("pubDate", text = "Wed, 26 May 2021 13:00:00 +0000")
-                element("lastBuildDate", text = "Sat, 29 May 2021 22:42:58 +0000")
-                element("generator", text = "libsyn")
-                element("link", text = "https://syntax.fm")
-                element("language", text = "en")
-                element("copyright", text = "http://foo.com")
-                element("docs", text = "http://foo.com")
-                element("managingEditor", text = "fdoyl001@gmail.com")
-                element("itunes:summary", text = directory.nameWithoutExtension)
+                element("pubDate", "Wed, 26 May 2021 13:00:00 +0000")
+                element("lastBuildDate", "Sat, 29 May 2021 22:42:58 +0000")
+                element("generator", "libsyn")
+                element("link", "https://syntax.fm")
+                element("language", "en")
+                element("copyright", "http://foo.com")
+                element("docs", "http://foo.com")
+                element("managingEditor", "fdoyl001@gmail.com")
+                element("itunes:summary", directory.nameWithoutExtension)
                 element("image") {
-                    element("url", text = imageUrl)
-                    element("title", text = "a title")
-                    element("link", text = "http://www.gogole.com")
+                    element("url", imageUrl)
+                    element("title", "a title")
+                    element("link", "http://www.gogole.com")
                 }
-                element("itunes:author", text = "Frankd")
-                element("itunes:keywords", text = "keyword")
+                element("itunes:author", "Frankd")
+                element("itunes:keywords", "keyword")
                 element(
                     "itunes:category",
                     mapOf(
@@ -178,28 +174,28 @@ fun buildRssForDirectory(host: String, directory: File): String {
                         "href" to imageUrl
                     )
                 )
-                element("itunes:subtitle", text = "A subtitle")
-                element("itunes:type", text = "episodic")
+                element("itunes:subtitle", "A subtitle")
+                element("itunes:type", "episodic")
 
 //                element("tts", text="1")
-                element("description", text = "This is a description")
+                element("description", "This is a description")
                 episodes.sortedBy { it.name }.forEach {
                     val episode = it
                     val title = it.name.removeSuffix(".mp3")
                     val url = buildUrlForFile(host, episode)
                     element("item") {
-                        element("pubDate", text = "Mon, 24 May 2021 13:00:00 +0000")
+                        element("pubDate", "Mon, 24 May 2021 13:00:00 +0000")
                         element(
                             "guid",
-                            text = "http://lacronicus.com/$url"
+                            "http://lacronicus.com/$url"
                         )
-                        element("link", text = "http://www.google.com")
+                        element("link", "http://www.google.com")
                         element("itunes:image", mapOf("href" to imageUrl))
-                        element("category", text = "none")
-                        element("description", text = "foo")
-                        element("content:encoded", text = "content")
-                        element("itunes:duration", text = "01:00:00")
-                        element("title", text = title)
+                        element("category","none")
+                        element("description", "foo")
+                        element("content:encoded", "content")
+                        element("itunes:duration", "01:00:00")
+                        element("title", title)
                         element(
                             "enclosure",
                             mapOf(
